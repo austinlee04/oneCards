@@ -32,7 +32,8 @@ for t in range(300):
     action = False
     if turn == 1:               # AI turn
         print("P{} turn".format(turn))
-        print(env.top_card)
+        print('top card : ', env.top_card)
+        print('attack : ', env.attack)
         state = env.action_able(P1_cards, env.top_card)
         while True:
             if state == [0 for i in range(len(state))]:
@@ -43,7 +44,6 @@ for t in range(300):
                 break
         able = list()
         if action != 999:
-            print(action)
             if action == 0:
                 for i in range(len(P1_cards)):
                     if P1_cards[i][0] == env.top_card[0]:
@@ -87,15 +87,18 @@ for t in range(300):
                     if P1_cards[i][0] == 'J':
                         able.append(P1_cards[i])
                 env.attack += 5
-            final_action = random.sample(able, len(able))
-            print(final_action)
+            final_action = random.choice(able)
+            P1_cards.remove(final_action)
+            print('final action : ', final_action)
             env.top_card = final_action[0]
         else:
             if env.attack:
                 P1_cards.extend([get_card() for _ in range(env.attack)])
                 env.attack = 0
+                action = 999
             else:
                 P1_cards.append(get_card())
+                action = 999
         if not P1_cards:
             break
     else:
@@ -114,5 +117,11 @@ for t in range(300):
 print('game ended!!!')
 
 
-
+'''
+< 작동 점검할 것들 >
+- 공격 카드 작동 여부
+- 방어 카드 작동 여부
+- 특수카드(J, Q, K) 작동 여부
+- 게임 끝나는가?
+'''
 
