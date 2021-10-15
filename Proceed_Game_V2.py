@@ -29,6 +29,7 @@ env.top_card = get_card()
 
 for t in range(300):
     turn, direction = env.find_turn()
+    print(turn, direction)
     action = False
     if turn == 1:               # AI turn
         print("P{} turn".format(turn))
@@ -36,7 +37,7 @@ for t in range(300):
         print('attack : ', env.attack)
         state = env.action_able(P1_cards, env.top_card)
         while True:
-            if state == [0 for i in range(len(state))]:
+            if not state:
                 action = 999
                 break
             action = P1.get_action(state)
@@ -87,20 +88,25 @@ for t in range(300):
                     if P1_cards[i][0] == 'J':
                         able.append(P1_cards[i])
                 env.attack += 5
+            print(able)
             final_action = random.choice(able)
             P1_cards.remove(final_action)
             print('final action : ', final_action)
             env.top_card = final_action[0]
         else:
+
             if env.attack:
+                print('you can\'t avoid the attack. take {} cards'.format(env.attack))
                 P1_cards.extend([get_card() for _ in range(env.attack)])
                 env.attack = 0
                 action = 999
             else:
+                print('no possible action. take a card')
                 P1_cards.append(get_card())
                 action = 999
         if not P1_cards:
             break
+
     else:
         print("P{} turn".format(turn))
         action = get_card()
@@ -113,6 +119,7 @@ for t in range(300):
             env.top_card = action
 
     env.turn += env.direction
+    print('turn ended')
 
 print('game ended!!!')
 
