@@ -102,7 +102,7 @@ if __name__ == '__main__':
                         if P1_cards[i][1] == 'K':
                             able.append(P1_cards[i])
                     P1_reward += 2
-                    env.turn += 2
+                    env.turn += 2 * env.direction
                 elif action == 5:
                     for i in range(len(P1_cards)):
                         if P1_cards[i][1] == '3':
@@ -202,7 +202,7 @@ if __name__ == '__main__':
                         if P2_cards[i][1] == 'K':
                             able.append(P2_cards[i])
                     P2_reward += 2
-                    env.turn += 2
+                    env.turn += 2 * env.direction
                 elif action == 5:
                     for i in range(len(P2_cards)):
                         if P2_cards[i][1] == '3':
@@ -297,7 +297,7 @@ if __name__ == '__main__':
                         if P3_cards[i][1] == 'K':
                             able.append(P3_cards[i])
                     P3_reward += 2
-                    env.turn += 2
+                    env.turn += 2 * env.direction
                 elif action == 5:
                     for i in range(len(P3_cards)):
                         if P3_cards[i][1] == '3':
@@ -360,5 +360,5 @@ if __name__ == '__main__':
 # plt.plot(game_num, P2_reward_log, 'g')
 # plt.plot(game_num, P3_reward_log, 'b')
 # plt.show()                                                          # 총 게임 결과 그래프로 출력
-agent.model.save_weights(".save_model/model_001", save_format="tf")     # 학습한 모델 저장
+agent.model.save_weights(".save_model/model_003", save_format="tf")     # 학습한 모델 저장
 print('done!')

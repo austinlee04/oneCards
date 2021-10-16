@@ -3,12 +3,17 @@ import random
 from Environment import Game
 
 def get_card():
-    data = input().split()
+    while True:
+        data = input().split()
+        if data[0] != '0' and len(data) != 2:
+            print('wrong input. try again')
+        else:
+            break
     return data
 
-# P1 : AI
+# P1 : Human
 # P2 : Human
-# P0 : Human
+# P0 : AI
 
 
 print('starting game!\nP1 is AI Player.')
@@ -31,7 +36,7 @@ for t in range(300):
     turn, direction = env.find_turn()
     print(turn, direction)
     action = False
-    if turn == 1:               # AI turn
+    if turn == 0:               # AI turn
         print("P{} turn".format(turn))
         print('top card : ', env.top_card)
         print('attack : ', env.attack)
@@ -57,7 +62,7 @@ for t in range(300):
                 for i in range(len(P1_cards)):
                     if P1_cards[i][1] == 'J':
                         able.append(P1_cards[i])
-                env.turn += env.direction * 2
+                env.turn += env.direction
             elif action == 3:
                 for i in range(len(P1_cards)):
                     if P1_cards[i][1] == 'Q':
@@ -67,7 +72,7 @@ for t in range(300):
                 for i in range(len(P1_cards)):
                     if P1_cards[i][1] == 'K':
                         able.append(P1_cards[i])
-                env.turn += 3
+                env.turn += 2 * env.direction
             elif action == 5:
                 for i in range(len(P1_cards)):
                     if P1_cards[i][1] == '3':
@@ -88,11 +93,10 @@ for t in range(300):
                     if P1_cards[i][0] == 'J':
                         able.append(P1_cards[i])
                 env.attack += 5
-            print(able)
             final_action = random.choice(able)
             P1_cards.remove(final_action)
             print('final action : ', final_action)
-            env.top_card = final_action[0]
+            env.top_card = final_action
         else:
 
             if env.attack:
@@ -109,17 +113,33 @@ for t in range(300):
 
     else:
         print("P{} turn".format(turn))
-        action = get_card()
         print(env.top_card)
-        if action == '0':
-            print('passing')
-            pass
+        action = get_card()
+        print(action)
+        if action[0] == '0':
+            print('attack : ', env.attack)
+            env.attack = 0
+        elif action[0] == '999':
+            break
         else:
-            print('not passing')
             env.top_card = action
+            if action[0] == 'J':
+                env.attack += 5
+            elif action[1] == '2':
+                env.attack += 2
+            elif action[1] == 'A':
+                env.attack += 3
+            elif action[1] == '3':
+                env.attack = 0
+            elif action[1] == 'J':
+                env.turn += env.direction
+            elif action[1] == 'Q':
+                env.direction *= -1
+            elif action[1] == 'K':
+                env.turn += 2 * env.direction
 
     env.turn += env.direction
-    print('turn ended')
+    print('\n')
 
 print('game ended!!!')
 
@@ -130,5 +150,10 @@ print('game ended!!!')
 - 방어 카드 작동 여부
 - 특수카드(J, Q, K) 작동 여부
 - 게임 끝나는가?
+
+< 나중에 보완할 것들 >
+- 불가능한 카드를 냈을 경우 오류 메세지
+- 잘못 입력했을 경우 오류 메세지
 '''
+
 
